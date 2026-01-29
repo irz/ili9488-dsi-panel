@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 /**
- * Microtips integrated DSI panel (MF-070ZIMACAA0) and touch DT overlay for AM62P5-SK
+ * Focus LCD MIPI DSI panel E35GH-I-MW800-CB
  *
  * AM62P5-SK EVM: https://www.ti.com/tool/SK-AM62P-LP
- * Panel: https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/3004/13-070ZIMACAA0-S_V1.1_20231120.pdf
+ * Panel: focuslcds.com/wp-content/uploads/2025/09/E35GH-I-MW800-CB_Spec.pdf
  *
  * Copyright (C) 2024 Texas Instruments Incorporated - http://www.ti.com/
  */
@@ -63,7 +63,7 @@
 	};
 
 	dsi_panel0: panel-dsi@0 {
-		compatible = "focuslcd,e35gh-i-mw800cb", "ilitek,ili9881c";
+		compatible = "focuslcd,e35gh-i-mw800cb", "ilitek,ili9488";
 		reg = <0>;
 
 		reset-gpios = <&exp1 9 GPIO_ACTIVE_LOW>;
