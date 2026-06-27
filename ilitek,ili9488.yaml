@@ -16,18 +16,20 @@ properties:
   compatible:
     items:
       - enum:
-          - focuslcd,e35gh-i-mw800cb
+          - focuslcds,e35gh-i-mw800cb
       - const: ilitek,ili9488
 
   reg:
     maxItems: 1
 
-  power-supply: true
+  vci-supply: true
+  iovcc-supply: true
 
 required:
   - compatible
   - reg
-  - power-supply
+  - vci-supply
+  - iovcc-supply
   - reset-gpios
   - backlight
   - port
@@ -43,9 +45,10 @@ examples:
         #size-cells = <0>;
 
         panel@0 {
-            compatible = "focuslcd,e35gh-i-mw800cb", "ilitek,ili9488";
+            compatible = "focuslcds,e35gh-i-mw800cb", "ilitek,ili9488";
             reg = <0>;
-            power-supply = <&reg_vdd_panel>;
+            vci-supply = <&reg_vci_panel>;
+            iovcc-supply = <&reg_iovcc_panel>;
             reset-gpios = <&gpio3 6 GPIO_ACTIVE_LOW>;
             backlight = <&pwm_bl>;
 
