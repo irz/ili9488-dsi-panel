@@ -20,12 +20,10 @@
 		};
 	};
 
-	dsi_phy_1v8: regulator-dsi-phy-1v8 {
-		compatible = "regulator-fixed";
-		regulator-name = "dsi-phy-1v8";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		regulator-always-on;
+	panel_backlight: panel-backlight {
+		compatible = "gpio-backlight";
+		gpios = <&gpioa 15 GPIO_ACTIVE_HIGH>;
+		default-on;
 	};
 };
 
@@ -37,27 +35,45 @@
 	clocks = <&scmi_clk CK_SCMI_MPU>;
 };
 
+&reg11 {
+	status = "okay";
+};
+
+&reg18 {
+	status = "okay";
+};
+
+&usb33 {
+	status = "okay";
+};
+
+&scmi_voltd {
+	status = "disabled";
+};
+
 &dsi {
-	phy-dsi-supply = <&dsi_phy_1v8>;
+	phy-dsi-supply = <&reg18>;
 	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
 };
 
 &dsi {
-  	#address-cells = <1>;
-  	#size-cells = <0>;
-  	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
 
-  	panel@0 {
-  		compatible = "orisetech,otm8009a";
-  		reg = <0>;
-  		reset-gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
-  		power-supply = <&v3v3>;
+	panel@0 {
+		compatible = "focuslcds,e35gh-i-mw800cb", "ilitek,ili9488";
+		reg = <0>;
+		vci-supply = <&v3v3>;
+		iovcc-supply = <&v3v3>;
+		reset-gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
+		backlight = <&panel_backlight>;
 
-  		port {
-  			panel_in: endpoint {
-  				remote-endpoint = <&dsi_out>;
-  			};
-  		};
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&dsi_out>;
+			};
+		};
 	};
 };
 
@@ -155,4 +171,13 @@
 
 &rtc {
 	clocks = <&scmi_clk CK_SCMI_RTCAPB>, <&scmi_clk CK_SCMI_RTC>;
+};
+
+&usbotg_hs {
+	usb33d-supply = <&usb33>;
+};
+
+&usbphyc {
+	vdda1v1-supply = <&reg11>;
+	vdda1v8-supply = <&reg18>;
 };
